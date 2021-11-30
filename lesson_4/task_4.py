@@ -2,6 +2,7 @@ is_ok = False
 user_input_words = []
 
 while not is_ok:
+    user_input_words = []
     user_input = input("Введите 2 слова: ")
     word_pos = 0
     for index in range(len(user_input)):
