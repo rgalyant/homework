@@ -1,16 +1,42 @@
-import time
-
-def time_of_function(function):
-    def wrapped(*args):
-        start_time = time.perf_counter_ns()
-        res = function(*args)
-        print(time.perf_counter_ns() - start_time)
-        return res
-    return wrapped
-
-@time_of_function
-def func(first, second):
-    return bin(int(first, 2) + int(second, 2))
+from time import time, sleep
 
 
-print(func("111", "0000"))
+def timedeco(func):
+    def wrapper(*args, **kwargs):
+        time_begin = time()
+        result = func(*args, **kwargs)
+        print(f"Result: {result}, time {time() - time_begin}s")
+        return result
+
+    return wrapper
+
+
+ls = list(range(10 ** 8))
+el = ls[-1]
+
+
+# print("List:", ls)
+# print("Elem:", el)
+# print()
+
+@timedeco
+def search1(sequence, look_for):
+    for i, e in enumerate(sequence):
+        if e == look_for:
+            return i
+    return -1
+
+
+@timedeco
+def search2(sequence, look_for):
+    i = -1
+    while i < len(sequence):
+        i += 1
+        if sequence[i] == look_for:
+            break
+    return i
+
+
+print("Begin")
+search1(ls, el)
+search2(ls, el)
